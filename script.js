@@ -27,7 +27,7 @@ async function checkMovie() {
             const movieCast = castData.cast.map(actor => actor.name);
             const mcuActorsInMovie = movieCast.filter(actor => mcuActors.includes(actor));
             
-            document.getElementById('result').innerHTML = `MCU Actors Found: ${mcuActorsInMovie.length}<br>${mcuActorsInMovie.join(', ')}`;
+            document.getElementById('result').innerHTML = `MCU Score: ${mcuActorsInMovie.length}<br>${mcuActorsInMovie.join(', ')}`;
         } else {
             document.getElementById('result').innerText = 'No matching movie found.';
         }

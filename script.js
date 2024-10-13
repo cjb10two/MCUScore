@@ -8,16 +8,22 @@ fetch('mcu_actors.json')
         console.log('MCU actors loaded:', mcuActors); // Confirm data load
     });
 
+// Function to normalize movie titles and search input
+function normalizeTitle(title) {
+    // Remove "The", "A", "An" and convert to lowercase
+    return title.toLowerCase().replace(/^(the|a|an)\s+/i, '').trim();
+}
+
 // Function to check movie for MCU actors with partial matching and links to TMDb profiles
 async function checkMovie() {
-    const title = document.getElementById('movieTitle').value.toLowerCase();
+    const inputTitle = normalizeTitle(document.getElementById('movieTitle').value);
     const apiKey = '58916bfcd983c91b3a757c03dd7352d3';
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${title}`);
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${inputTitle}`);
     const data = await response.json();
 
     if (data.results.length > 0) {
-        // Find the closest match based on title, allowing partial matches
-        const bestMatch = data.results.find(movie => movie.title.toLowerCase().includes(title));
+        // Find the closest match by normalizing both the search input and movie titles
+        const bestMatch = data.results.find(movie => normalizeTitle(movie.title).includes(inputTitle));
 
         if (bestMatch) {
             const movieId = bestMatch.id;

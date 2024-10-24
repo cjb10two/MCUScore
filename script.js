@@ -1,6 +1,6 @@
 let mcuActors = [];
 
-// Fetch MCU actors list with their movies from JSON file
+// Fetch MCU actors list from JSON file
 fetch('mcu_actors.json')
     .then(response => response.json())
     .then(data => {
@@ -8,35 +8,23 @@ fetch('mcu_actors.json')
         console.log('MCU actors loaded:', mcuActors); // Confirm data load
     });
 
-// Function to check movie for MCU actors with partial matching and links to TMDb profiles
+// Function to check movie for MCU actors
 async function checkMovie() {
-    const inputTitle = document.getElementById('movieTitle').value.toLowerCase();
+    const title = document.getElementById('movieTitle').value;
     const apiKey = '58916bfcd983c91b3a757c03dd7352d3';
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${inputTitle}`);
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${title}`);
     const data = await response.json();
 
     if (data.results.length > 0) {
-        // Directly find a movie match without normalizing
-        const bestMatch = data.results.find(movie => movie.title.toLowerCase().includes(inputTitle));
-
-        if (bestMatch) {
-            const movieId = bestMatch.id;
-            const castResponse = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`);
-            const castData = await castResponse.json();
-            
-            const mcuActorsInMovie = castData.cast
-                .filter(actor => mcuActors.some(mcuActor => mcuActor.name === actor.name))
-                .map(actor => {
-                    const mcuActorData = mcuActors.find(mcuActor => mcuActor.name === actor.name);
-                    const moviesList = mcuActorData.movies.join(', ');
-                    return `<a href="https://www.themoviedb.org/person/${actor.id}" target="_blank">${actor.name}</a> - MCU Movies: ${moviesList}`;
-                });
-
-            document.getElementById('result').innerHTML = `MCU Score: ${mcuActorsInMovie.length}<br>${mcuActorsInMovie.join('<br>')}`;
-        } else {
-            document.getElementById('result').innerText = 'No matching movie found.';
-        }
+        const movieId = data.results[0].id;
+        const castResponse = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`);
+        const castData = await castResponse.json();
+        
+        const movieCast = castData.cast.map(actor => actor.name);
+        const mcuActorsInMovie = movieCast.filter(actor => mcuActors.includes(actor));
+        
+        document.getElementById('result').innerHTML = `MCU Actors Found: ${mcuActorsInMovie.length}<br>${mcuActorsInMovie.join(', ')}`;
     } else {
-        document.getElementById('result').innerText = 'No results found.';
+        document.getElementById('result').innerText = 'Movie not found.';
     }
 }

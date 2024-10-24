@@ -33,12 +33,21 @@ button:hover {
 
 #result {
     margin-top: 20px;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 1.2em;
-    color: #333;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 10px;
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif; /* Orbitron font gives a digital look */
+    font-size: 2.5em;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 5px solid #FFD700; /* Gold border to enhance the scoreboard look */
+    width: 300px;
+}
+
+#scoreboard {
+    margin-top: 30px;
 }
 
 footer {
@@ -48,7 +57,7 @@ footer {
 }
 
 a {
-    color: #4CAF50;
+    color: #FFD700; /* Gold links for consistency */
     text-decoration: none;
 }
 

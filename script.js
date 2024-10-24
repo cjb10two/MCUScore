@@ -42,13 +42,14 @@ async function checkMovie() {
             const castData = await castResponse.json();
             console.log("Cast data:", castData);  // Log the cast data
 
-            // Log the actor names from TMDb and mcu_actors.json for comparison
+            // Compare each actor from TMDb to the MCU actor list and log if no match is found
             castData.cast.forEach(actor => {
-                console.log(`TMDb Actor: ${actor.name}`);
-            });
-
-            mcuActors.forEach(mcuActor => {
-                console.log(`MCU Actor: ${mcuActor.name}`);
+                const matchedActor = mcuActors.find(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim());
+                if (matchedActor) {
+                    console.log(`Match found: TMDb Actor - ${actor.name}, MCU Actor - ${matchedActor.name}`);
+                } else {
+                    console.warn(`No match for: ${actor.name} (from TMDb)`);
+                }
             });
 
             // Find MCU actors in the movie (case-insensitive and trimmed)

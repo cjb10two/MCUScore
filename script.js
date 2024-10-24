@@ -42,11 +42,11 @@ async function checkMovie() {
             const castData = await castResponse.json();
             console.log("Cast data:", castData);  // Log the cast data
 
-            // Find MCU actors in the movie
+            // Find MCU actors in the movie (case-insensitive and trimmed)
             const mcuActorsInMovie = castData.cast
-                .filter(actor => mcuActors.some(mcuActor => mcuActor.name === actor.name))
+                .filter(actor => mcuActors.some(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim()))
                 .map(actor => {
-                    const mcuActorData = mcuActors.find(mcuActor => mcuActor.name === actor.name);
+                    const mcuActorData = mcuActors.find(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim());
                     const moviesList = mcuActorData ? mcuActorData.movies.join(', ') : '';
                     return `<a href="https://www.themoviedb.org/person/${actor.id}" target="_blank">${actor.name}</a> - MCU Movies: ${moviesList}`;
                 });

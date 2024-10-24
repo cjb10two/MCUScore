@@ -42,6 +42,15 @@ async function checkMovie() {
             const castData = await castResponse.json();
             console.log("Cast data:", castData);  // Log the cast data
 
+            // Log the actor names from TMDb and mcu_actors.json for comparison
+            castData.cast.forEach(actor => {
+                console.log(`TMDb Actor: ${actor.name}`);
+            });
+
+            mcuActors.forEach(mcuActor => {
+                console.log(`MCU Actor: ${mcuActor.name}`);
+            });
+
             // Find MCU actors in the movie (case-insensitive and trimmed)
             const mcuActorsInMovie = castData.cast
                 .filter(actor => actor.name && mcuActors.some(mcuActor => mcuActor.name && mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim()))

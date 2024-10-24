@@ -16,6 +16,7 @@ async function checkMovie() {
     const data = await response.json();
 
     if (data.results.length > 0) {
+        // Directly find a movie match without normalizing
         const bestMatch = data.results.find(movie => movie.title.toLowerCase().includes(inputTitle));
 
         if (bestMatch) {
@@ -31,14 +32,7 @@ async function checkMovie() {
                     return `<a href="https://www.themoviedb.org/person/${actor.id}" target="_blank">${actor.name}</a> - MCU Movies: ${moviesList}`;
                 });
 
-            // Update the scoreboard and actor names
-            document.getElementById('result').innerHTML = `MCU Score: ${mcuActorsInMovie.length}`;
-
-            if (mcuActorsInMovie.length > 0) {
-                document.getElementById('result').innerHTML += `<br>${mcuActorsInMovie.join('<br>')}`;
-            } else {
-                document.getElementById('result').innerHTML += '<br>No MCU actors found in this movie.';
-            }
+            document.getElementById('result').innerHTML = `MCU Score: ${mcuActorsInMovie.length}<br>${mcuActorsInMovie.join('<br>')}`;
         } else {
             document.getElementById('result').innerText = 'No matching movie found.';
         }

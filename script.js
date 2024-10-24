@@ -44,11 +44,13 @@ async function checkMovie() {
 
             // Compare each actor from TMDb to the MCU actor list and log if no match is found
             castData.cast.forEach(actor => {
-                const matchedActor = mcuActors.find(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim());
-                if (matchedActor) {
-                    console.log(`Match found: TMDb Actor - ${actor.name}, MCU Actor - ${matchedActor.name}`);
-                } else {
-                    console.warn(`No match for: ${actor.name} (from TMDb)`);
+                if (actor.name) {  // Ensure the TMDb actor has a name
+                    const matchedActor = mcuActors.find(mcuActor => mcuActor.name && mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim());
+                    if (matchedActor) {
+                        console.log(`Match found: TMDb Actor - ${actor.name}, MCU Actor - ${matchedActor.name}`);
+                    } else {
+                        console.warn(`No match for: ${actor.name} (from TMDb)`);
+                    }
                 }
             });
 

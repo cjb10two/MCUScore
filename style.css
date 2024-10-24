@@ -31,23 +31,25 @@ button:hover {
     background-color: #45a049;
 }
 
-#result {
+#score {
     margin-top: 20px;
-    padding: 20px;
+    padding: 10px;
     background-color: #333;
     color: #fff;
     border-radius: 10px;
     display: inline-block;
-    font-family: 'Orbitron', sans-serif; /* Orbitron font gives a digital look */
-    font-size: 2.5em;
+    font-family: 'Orbitron', sans-serif; /* Digital look */
+    font-size: 3em;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     text-align: center;
-    border: 5px solid #FFD700; /* Gold border to enhance the scoreboard look */
-    width: 300px;
+    border: 5px solid #FFD700;
+    width: 200px;
 }
 
-#scoreboard {
-    margin-top: 30px;
+#actorNames {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
 }
 
 footer {
@@ -57,7 +59,7 @@ footer {
 }
 
 a {
-    color: #FFD700; /* Gold links for consistency */
+    color: #4CAF50;
     text-decoration: none;
 }
 

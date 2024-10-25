@@ -41,11 +41,24 @@ async function checkMovie() {
             const castData = await castResponse.json();
             console.log("Cast data:", castData);  // Log the cast data
 
-            // Basic cross-referencing between TMDb cast and MCU actors JSON
+            // Compare each actor from TMDb to the MCU actor list and log if no match is found
+            console.log("Comparing TMDb cast with MCU actors from JSON...");
+            castData.cast.forEach(actor => {
+                if (actor.name) {
+                    const matchedActor = mcuActors.find(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim());
+                    if (matchedActor) {
+                        console.log(`Match found: TMDb Actor - ${actor.name}, MCU Actor - ${matchedActor.name}`);
+                    } else {
+                        console.warn(`No match for: ${actor.name} (from TMDb)`);
+                    }
+                }
+            });
+
+            // Find MCU actors in the movie (case-insensitive and trimmed)
             const mcuActorsInMovie = castData.cast
-                .filter(actor => actor.name && mcuActors.some(mcuActor => mcuActor.name && mcuActor.name.toLowerCase() === actor.name.toLowerCase()))
+                .filter(actor => actor.name && mcuActors.some(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim()))
                 .map(actor => {
-                    const mcuActorData = mcuActors.find(mcuActor => mcuActor.name.toLowerCase() === actor.name.toLowerCase());
+                    const mcuActorData = mcuActors.find(mcuActor => mcuActor.name.toLowerCase().trim() === actor.name.toLowerCase().trim());
                     return `<a href="https://www.themoviedb.org/person/${actor.id}" target="_blank">${actor.name}</a>`;
                 });
 
